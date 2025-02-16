@@ -1142,4 +1142,37 @@ document.addEventListener("DOMContentLoaded", function() {
     button.setAttribute("aria-pressed", "true");
 
     if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-      alert("Try
+      alert("Trykk på delingsknappen (nederst), og deretter på 'Legg til på hjem-skjerm'.");
+    } else if (navigator.userAgent.match(/Android/i)) {
+      alert("Trykk på menyen (⋮) øverst til høyre, og deretter på 'Legg til på hjem-skjerm'.");
+    } else {
+      alert("Trykk på Ctrl + D (eller Command + D på Mac) for å legge til denne siden i dine favoritter.");
+    }
+  }
+
+  // Function to track clicks with Google Analytics
+  function trackClick(label, category = 'CTA', value = null) {
+    if (typeof gtag === 'function') {
+      gtag('event', 'click', {
+        'event_category': category,
+        'event_label': label,
+        'value': value
+      });
+    } else {
+      console.log("gtag not available, trackClick:", label, category, value);
+    }
+  }
+
+  // Attach event handler to all "Add to Favorites" buttons
+  const favoriteButtons = document.querySelectorAll(".favorite-button");
+  favoriteButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+      addToFavorites(button);
+      trackClick('Legg til Favoritter', 'Interaction', 0);
+    });
+  });
+});
+</script>
+  
+</body>
+</html>
